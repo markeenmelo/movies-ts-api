@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express'
 import { collections } from '../services/database'
-import {ObjectId} from 'mongodb'
+import { ObjectId } from 'mongodb'
 
 export const movies: Router  = express.Router()
 
@@ -38,6 +38,27 @@ movies.post('/', async (req: Request, res: Response) => {
             })
             : res.status(500).send({
                 message: 'failed to insert new movie'
+            })
+    } catch (error) {
+        console.error(error.message)
+        res.status(400).send({
+            message: error.message
+        })
+    }
+})
+
+movies.put('/:id', async(req: Request, res: Response) => {
+    const id = req?.params?.id
+    try {
+        const updatedMovie = req.body
+        const query = { _id: new ObjectId(id) }
+        const result = await collections.movies.updateOne(query, { $set: updatedMovie })
+        result
+            ? res.status(200).send({
+                message: `successfully updated movie with id: ${id}`
+            })
+            : res.status(304).send({
+                message: `movie with id ${id} not updated`
             })
     } catch (error) {
         console.error(error.message)

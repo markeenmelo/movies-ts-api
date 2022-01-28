@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 
 export const collections: { movies?: mongoDB.Collection } = {}
 
-export const connectToDatabase = async () => {
+export const connectToDatabase: () => Promise<void> = async () => {
     dotenv.config()
 
     const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.DB_CONN_STRING)
@@ -17,7 +17,7 @@ export const connectToDatabase = async () => {
     console.log(`Successfully connected to database: ${db.databaseName} and collection: ${moviesCollection.collectionName}`);
 }
 
-async function applySchemaValidation(db: mongoDB.Db)  {
+const applySchemaValidation = async (db: mongoDB.Db) =>  {
     const jsonSchema = {
         $jsonSchema: {
             bsonType: 'object',
@@ -48,6 +48,7 @@ async function applySchemaValidation(db: mongoDB.Db)  {
             }
         }
     }
+
     await db.command({
         collMod: process.env.COLLECTION_NAME,
         validator: jsonSchema
