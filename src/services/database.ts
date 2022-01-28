@@ -1,6 +1,5 @@
 import * as mongoDB from 'mongodb'
 import * as dotenv from 'dotenv'
-import Movie from '../models/movie'
 
 export const collections: { movies?: mongoDB.Collection } = {}
 
@@ -16,3 +15,4 @@ export async function connectToDatabase () {
 
     console.log(`Successfully connected to database: ${db.databaseName} and collection: ${moviesCollection.collectionName}`);
 }
+
