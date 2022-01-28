@@ -17,6 +17,7 @@ movies.get('/', async (_req: Request, res: Response) => {
 
 movies.get('/:id', async (req: Request, res: Response) => {
     const id = req?.params?.id
+
     try {
         const query = { _id: new ObjectId(id) }
         const movie = await collections.movies.findOne(query)
@@ -49,6 +50,7 @@ movies.post('/', async (req: Request, res: Response) => {
 
 movies.put('/:id', async(req: Request, res: Response) => {
     const id = req?.params?.id
+
     try {
         const updatedMovie = req.body
         const query = { _id: new ObjectId(id) }
@@ -60,6 +62,36 @@ movies.put('/:id', async(req: Request, res: Response) => {
             : res.status(304).send({
                 message: `movie with id ${id} not updated`
             })
+    } catch (error) {
+        console.error(error.message)
+        res.status(400).send({
+            message: error.message
+        })
+    }
+})
+
+movies.delete('/:id', async (req: Request, res: Response) => {
+    const id = req?.params?.id
+
+    try {
+        const query = { _id: new ObjectId(id) }
+        const result = await collections.movies.deleteOne(query)
+
+        if (result && result.deletedCount) {
+            res.status(202).send({
+                message: `movie with id ${id} removed`
+            })
+        }
+        if (!result) {
+            res.status(400).send({
+                message: `movie with id ${id} failed to be removed`
+            })
+        }
+        if (!result.deletedCount) {
+            res.status(404).send({
+                message: 'movie with id ${id} not found'
+            })
+        }
     } catch (error) {
         console.error(error.message)
         res.status(400).send({
