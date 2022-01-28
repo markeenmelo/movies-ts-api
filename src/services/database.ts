@@ -1,7 +1,8 @@
 import * as mongoDB from 'mongodb'
 import * as dotenv from 'dotenv'
+import Movie from '../models/movie'
 
-export const collections: { movies?: mongoDB.Collection } = {}
+export const collections: { movies?: mongoDB.Collection<Movie> } = {}
 
 export const connectToDatabase: () => Promise<void> = async () => {
     dotenv.config()
@@ -11,7 +12,7 @@ export const connectToDatabase: () => Promise<void> = async () => {
 
     const db: mongoDB.Db = client.db(process.env.DB_NAME)
     await applySchemaValidation(db)
-    const moviesCollection: mongoDB.Collection = db.collection(process.env.COLLECTION_NAME)
+    const moviesCollection = db.collection<Movie>(process.env.COLLECTION_NAME)
     collections.movies = moviesCollection
 
     console.log(`Successfully connected to database: ${db.databaseName} and collection: ${moviesCollection.collectionName}`);
