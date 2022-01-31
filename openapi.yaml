@@ -1,0 +1,25 @@
+openapi: 3.0.1
+
+info:
+    title: Movies API
+    version: v0.0.1
+    contact:
+        name: Marcos Melo
+        email: marcos@marcosmelo.tech
+    description: This API allows for the creation and querying of movies
+
+servers:
+    - url: https://movies-ts-api.heroku.com
+      description: Hosted in Heroku, it goes to sleep once every 30 minutes when not used
+
+tags:
+    - name: movies
+
+paths:
+    /movies:
+        get:
+            responses:
+                200:
+                    description: 200 OK
+            summary: Get movies
+            description: Get movies
