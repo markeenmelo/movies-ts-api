@@ -3,8 +3,8 @@ import { ObjectId } from 'mongodb'
 export default interface Movie {
         title: string,
         overview: string,
-        release_date: number,
+        releaseDate: number,
         rate: number,
-        poster_path: string,
+        poster: string,
         id?: ObjectId
 }
