@@ -18,8 +18,35 @@ tags:
 paths:
     /movies:
         get:
+            summary: Find all movies
+            description: Return all movies
             responses:
                 200:
-                    description: 200 OK
-            summary: Get movies
-            description: Get movies
+                    description: successfull operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Movie'
+
+components:
+    schemas:
+        Movie:
+            type: object
+            properties:
+                title:
+                    type: string
+                    example: 'Justice League'
+                overview:
+                    type: string
+                    example: 'A DC Movie'
+                releaseDate:
+                    type: number
+                    example: 2018
+                rate:
+                    type: number
+                    example: 7
+                poster:
+                    type: string
+                    example: 'https://www.movie.com/justice.jpg'
