@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from 'express'
 import { collections } from '../services/database'
 import { ObjectId } from 'mongodb'
+import moviesJson from '../utils/seed.json'
 
 export const movies: Router = express.Router()
 
@@ -10,6 +11,15 @@ movies.get('/', async (_req: Request, res: Response) => {
   try {
     const movies = await collections.movies.find({}).toArray()
     res.status(200).send(movies)
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
+})
+
+movies.get('/seed', async (_req: Request, res: Response) => {
+  try {
+    await collections.movies.insertMany(moviesJson)
+    res.status(200).send('Seeded')
   } catch (error) {
     res.status(500).send(error.message)
   }
