@@ -22,7 +22,7 @@ const applySchemaValidation = async (db: mongoDB.Db) => {
   const jsonSchema = {
     $jsonSchema: {
       bsonType: 'object',
-      required: ['title', 'overview', 'release_date', 'rate', 'poster_path'],
+      required: ['title', 'overview', 'releaseDate', 'rate', 'poster'],
       additionalProperties: false,
       properties: {
         _id: {},
